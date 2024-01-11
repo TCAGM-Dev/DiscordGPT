@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, ChannelType, PermissionFlagsBits, ActionRowBuilder, ButtonStyle} = require("discord.js")
+const {SlashCommandBuilder, ChannelType, PermissionFlagsBits, ActionRowBuilder, ButtonStyle, ButtonBuilder} = require("discord.js")
 const db = require("../db.js")
 
 module.exports = {
