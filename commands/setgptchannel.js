@@ -14,9 +14,19 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setDMPermission(false),
   async execute(interaction) {
-    const channelid = interaction.options.get("channel").value
-    db.set(`gptchannel.${interaction.guildId}`, channelid).then(() => {
-      interaction.reply(`Successfully set ChatGPT channel to <#${channelid}>`)
+    const channel = interaction.options.getChannel("channel")
+    const message = await channel.send({
+      content: "",
+      components: [new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("newchat")
+          .setLabel("New Chat")
+          .setStyle(ButtonStyle.Primary)
+      )]
+    })
+    await db.set(`startchatmessage.${interaction.guild.id}`, message.id)
+    db.set(`gptchannel.${interaction.guildId}`, channel.id).then(async () => {
+      interaction.reply(`Successfully set ChatGPT channel to <#${channel.id}>`)
     }).catch(console.error)
   }
 }
