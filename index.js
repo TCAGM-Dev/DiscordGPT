@@ -1,12 +1,12 @@
 (async ()=>{
+  require("dotenv").config()
   const {Client, Events, GatewayIntentBits, Collection, Partials, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, EmbedBuilder} = require("discord.js")
   const {ChatGPTAPI} = await import("chatgpt")
   let apis = {}
-  apis["default"] = new ChatGPTAPI({apiKey: process.env["OPENAIAPIKEY"]})
+  apis["default"] = new ChatGPTAPI({apiKey: process.env.OPENAIAPIKEY})
   const fs = require("fs")
   const path = require("path")
   const db = require("./db.js")
-  const webserver = require("./webserver.js")
   const {ErrorColor} = require("./colors.js")
 
   async function sendGPTMessage(user, ...args) {
@@ -176,8 +176,10 @@ components: [new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomI
     await db.delete(`lastresponseid.${thread.id}`)
   })
   
-  client.login(process.env["TOKEN"])
-  webserver.listen(3000, () => {
-    console.log("Listening on port 3000")
-  })
+  client.login(process.env.TOKEN)
+  if (process.env.WEBSERVERPORT) {
+    require("./webserver.js").listen(process.env.WEBSERVERPORT, () => {
+      console.log("Listening on port 3000")
+    })
+  }
 })();
