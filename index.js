@@ -3,7 +3,7 @@
   const {Client, Events, GatewayIntentBits, Collection, Partials, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, EmbedBuilder} = require("discord.js")
   const {ChatGPTAPI} = await import("chatgpt")
   let apis = {}
-  apis["default"] = new ChatGPTAPI({apiKey: process.env.OPENAIAPIKEY})
+  apis["default"] = new ChatGPTAPI({apiKey: process.env.OPENAI_API_KEY})
   const fs = require("fs")
   const path = require("path")
   const db = require("./db.js")
