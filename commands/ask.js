@@ -16,11 +16,20 @@ module.exports = {
       ephemeral: true
     })
     let replycontent = ""
-    const res = await sendGPTMessage(interaction.user, prompt, {onProgress: async res => {
-      if (res.text.length <= 0 || replycontent == res.text || replycontent.length < res.text.length) return;
-      interaction.editReply((res.text + "_").slice(0, 2000))
-      replycontent = (res.text + "_").slice(0, 2000)
-    }})
-    interaction.editReply(res.text.slice(0, 2000))
+    const response = await sendGPTMessage(interaction.user, {
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are ChatGPT, a large language model trained by OpenAI. You answer as concisely as possible for each response. If you are generating a list, do not have too many items."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+    console.log(response)
+    interaction.editReply("yes")
   }
 }
